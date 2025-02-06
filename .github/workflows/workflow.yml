@@ -32,14 +32,14 @@ jobs:
 
       - name: Collect Coverage Report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Coverage Report
           path: coverage-report
 
       - name: Collect Stryker Report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Stryker Report
           path: stryker-output
