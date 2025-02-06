@@ -28,7 +28,7 @@ jobs:
 
       - name: Run Mutation Tests
         run: |
-          stryker
+          dotnet stryker
 
       - name: Collect Coverage Report
         if: always()
