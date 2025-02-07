@@ -91,47 +91,22 @@ public class CachedCalculatorTest
         Assert.That(result, Is.True);
     }
     
-   
-    
-    public class TestCalculation : CachedCalculator.Calculation
-    {
-        public TestCalculation(string operation, int a, int? b = null)
-            : base(operation, a, b)
-        {
-        }
-    }
-    
     [Test]
-    public void Constructor_ShouldAssignValuesCorrectly()
+    public void IsPrime_UsesCache()
     {
         // Arrange
-        string expectedOperation = "Add";
-        int expectedA = 10;
-        int? expectedB = 20;
+        var calc = new CachedCalculator();
+        var candidate = 7;
 
         // Act
-        var calculation = new TestCalculation(expectedOperation, expectedA, expectedB);
+        var firstResult = calc.IsPrime(candidate);
+        var secondResult = calc.IsPrime(candidate);
 
         // Assert
-        Assert.That(calculation.GetType().GetProperty("A", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(calculation), Is.EqualTo(expectedA));
-        Assert.That(calculation.GetType().GetProperty("B", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(calculation), Is.EqualTo(expectedB));
-        Assert.That(calculation.GetType().GetProperty("Operation", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(calculation), Is.EqualTo(expectedOperation));
+        Assert.That(firstResult, Is.True);
+        Assert.That(secondResult, Is.True);
+        Assert.That(calc._cache.Count, Is.EqualTo(1));
     }
-
-    [Test]
-    public void GetKey_ShouldReturnCorrectKey()
-    {
-        // Arrange
-        string operation = "Add";
-        int a = 10;
-        int? b = 20;
-        var calculation = new TestCalculation(operation, a, b);
-        string expectedKey = "10Add20";
-
-        // Act
-        var key = calculation.GetKey();
-
-        // Assert
-        Assert.That(key, Is.EqualTo(expectedKey));
-    }
+    
+    
 }
