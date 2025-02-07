@@ -76,17 +76,17 @@ public class SimpleCalculatorTest
     }
     
     [Test]
-    public void Factorial_Exeption()
+    public void Factorial_Exception()
     {
         // Arrange
         var calc = new SimpleCalculator();
-        var candidate = 0;
-    
+        var n = -1;
+
         // Act
-        var result = calc.IsPrime(candidate);
-    
+        var ex = Assert.Throws<ArgumentException>(() => calc.Factorial(n));
+
         // Assert
-        Assert.That(result, Is.False);
+        Assert.That(ex.Message, Is.EqualTo("Factorial is not defined for negative numbers"));
     }
 
     [Test]
