@@ -119,4 +119,19 @@ public class SimpleCalculatorTest
         // Assert
         Assert.That(result, Is.False);
     }
+    
+    [Test]
+    public void IsPrime_two()
+    {
+        // Arrange
+        var calc = new SimpleCalculator();
+        var candidate = 2;
+    
+        // Act
+        var result = calc.IsPrime(candidate);
+    
+        // Assert
+        Assert.That(result, Is.True);
+        
+    }
 }
