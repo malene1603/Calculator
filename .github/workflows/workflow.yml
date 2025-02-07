@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Coverage Report
-          path: TestResults/**/coverage.cobertura.xml
+          path: coverage-report/*.*
 
       - name: Collect Stryker Report
         if: always()
