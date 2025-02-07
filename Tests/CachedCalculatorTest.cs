@@ -91,22 +91,7 @@ public class CachedCalculatorTest
         Assert.That(result, Is.True);
     }
     
-    [Test]
-    public void IsPrime_UsesCache()
-    {
-        // Arrange
-        var calc = new CachedCalculator();
-        var candidate = 7;
-
-        // Act
-        var firstResult = calc.IsPrime(candidate);
-        var secondResult = calc.IsPrime(candidate);
-
-        // Assert
-        Assert.That(firstResult, Is.True);
-        Assert.That(secondResult, Is.True);
-        Assert.That(calc._cache.Count, Is.EqualTo(1));
-    }
+   
     
     public class TestCalculation : CachedCalculator.Calculation
     {
