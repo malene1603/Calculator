@@ -22,7 +22,7 @@ jobs:
       - name: Start Static Code Analysis
         run: | # INSERT RELEVANT VARIABLES BELOW
           dotnet sonarscanner begin \
-            /k:"${{ vars.CALCULATOR_PROJECT_KEY }}" \ 
+            /k:"MVW_Calculator" \ 
             /d:sonar.host.url="${{ vars.CALCULATOR_URL }}" \
             /d:sonar.token="${{ secrets.CALCULATOR_TOKEN }}" \
             /d:sonar.coverageReportPaths="coverage-report/SonarQube.xml" \
