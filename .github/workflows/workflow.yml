@@ -22,7 +22,7 @@ jobs:
       - name: Start Static Code Analysis
         run: |
           dotnet sonarscanner begin \
-            /k:"${{ secrets.CALCULATOR_PROJECT_KEY }}" \
+            /k:"${{ vars.CALCULATOR_PROJECT_KEY }}" \
             /d:sonar.host.url="${{ vars.CALCULATOR_URL }}" \
             /d:sonar.token="${{ secrets.CALCULATOR_TOKEN }}" \
             /d:sonar.coverageReportPaths="coverage-report/SonarQube.xml" \
