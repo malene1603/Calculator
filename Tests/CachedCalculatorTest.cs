@@ -18,17 +18,17 @@ public class CachedCalculatorTest
         // Assert
         Assert.That(result, Is.EqualTo(5));
     }
-    
+
     public static void Subtract()
     {
         // Arrange
         var calc = new CachedCalculator();
         var a = 5;
         var b = 3;
-    
+
         // Act
         var result = calc.Subtract(a, b);
-    
+
         // Assert
         Assert.That(result, Is.EqualTo(2));
     }
@@ -40,10 +40,10 @@ public class CachedCalculatorTest
         var calc = new CachedCalculator();
         var a = 5;
         var b = 3;
-    
+
         // Act
         var result = calc.Multiply(a, b);
-    
+
         // Assert
         Assert.That(result, Is.EqualTo(15));
     }
@@ -55,10 +55,10 @@ public class CachedCalculatorTest
         var calc = new CachedCalculator();
         var a = 15;
         var b = 3;
-    
+
         // Act
         var result = calc.Divide(a, b);
-    
+
         // Assert
         Assert.That(result, Is.EqualTo(5));
     }
@@ -69,10 +69,10 @@ public class CachedCalculatorTest
         // Arrange
         var calc = new CachedCalculator();
         var n = 5;
-    
+
         // Act
         var result = calc.Factorial(n);
-    
+
         // Assert
         Assert.That(result, Is.EqualTo(120));
     }
@@ -83,14 +83,14 @@ public class CachedCalculatorTest
         // Arrange
         var calc = new CachedCalculator();
         var candidate = 7;
-    
+
         // Act
         var result = calc.IsPrime(candidate);
-    
+
         // Assert
         Assert.That(result, Is.True);
     }
-    
+
     [Test]
     public void IsPrime_UsesCache()
     {
@@ -105,8 +105,6 @@ public class CachedCalculatorTest
         // Assert
         Assert.That(firstResult, Is.True);
         Assert.That(secondResult, Is.True);
-        Assert.That(calc._cache.Count, Is.EqualTo(1));
+        Assert.That(calc.CacheCount, Is.EqualTo(1));
     }
-    
-    
 }

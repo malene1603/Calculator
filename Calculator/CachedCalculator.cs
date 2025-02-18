@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 
 namespace Calculator;
@@ -5,8 +6,13 @@ namespace Calculator;
 public class CachedCalculator : ICalculator
 {
     public readonly SimpleCalculator _calculator = new();
-    public readonly Dictionary<string, Calculation> _cache = new();
-    
+    private ImmutableDictionary<string, Calculation> _cache;
+
+    public CachedCalculator()
+    {
+        _cache = ImmutableDictionary<string, Calculation>.Empty;
+    }
+
     public int Add(int a, int b)
     {
         var calc = GetCachedResult<int>(a, b) ?? StoreInCache(_calculator.Add(a, b), a, b);
@@ -14,19 +20,19 @@ public class CachedCalculator : ICalculator
     }
 
     public int Subtract(int a, int b)
-    {        
+    {
         var calc = GetCachedResult<int>(a, b) ?? StoreInCache(_calculator.Subtract(a, b), a, b);
         return calc.Result;
     }
 
     public int Multiply(int a, int b)
-    {        
+    {
         var calc = GetCachedResult<int>(a, b) ?? StoreInCache(_calculator.Multiply(a, b), a, b);
         return calc.Result;
     }
 
     public int Divide(int a, int b)
-    {        
+    {
         var calc = GetCachedResult<int>(a, b) ?? StoreInCache(_calculator.Divide(a, b), a, b);
         return calc.Result;
     }
@@ -42,7 +48,7 @@ public class CachedCalculator : ICalculator
         var calc = GetCachedResult<bool>(candidate) ?? StoreInCache(_calculator.IsPrime(candidate), candidate);
         return calc.Result;
     }
-    
+
     private Calculation<T>? GetCachedResult<T>(int a, int? b = null, [CallerMemberName]string operation = "")
     {
         var calc = new Calculation<T>(default, operation, a, b);
@@ -52,15 +58,17 @@ public class CachedCalculator : ICalculator
         }
         return null;
     }
-    
+
     private Calculation<T> StoreInCache<T>(T result, int a, int? b = null, [CallerMemberName]string operation = "")
     {
         var calc = new Calculation<T>(result, operation, a, b);
         calc.Result = result;
-        _cache.Add(calc.GetKey(), calc);
+        _cache = _cache.Add(calc.GetKey(), calc);
         return calc;
     }
-    
+
+    public int CacheCount => _cache.Count;
+
     public class Calculation
     {
         private int A { get; }
@@ -73,14 +81,14 @@ public class CachedCalculator : ICalculator
             B = b;
             Operation = operation;
         }
-    
+
         public string GetKey()
         {
             return string.Concat(A, Operation, B);
         }
     }
 
-    private class Calculation<T>(T? result, string operation, int a, int? b = null)
+    private sealed class Calculation<T>(T? result, string operation, int a, int? b = null)
         : Calculation(operation, a, b)
     {
         public T? Result { get; set; } = result;
