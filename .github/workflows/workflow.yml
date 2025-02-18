@@ -18,17 +18,17 @@ jobs:
           dotnet tool install -g dotnet-sonarscanner
           dotnet tool install --global dotnet-reportgenerator-globaltool
           dotnet tool install --global dotnet-stryker
-          
+
       - name: Start Static Code Analysis
-        run: | # INSERT RELEVANT VARIABLES BELOW
+        run: |
           dotnet sonarscanner begin \
-            /k:"${{ secrets.CALCULATOR_PROJECT_KEY }}" \ 
+            /k:"${{ secrets.CALCULATOR_PROJECT_KEY }}" \
             /d:sonar.host.url="${{ vars.CALCULATOR_URL }}" \
             /d:sonar.token="${{ secrets.CALCULATOR_TOKEN }}" \
             /d:sonar.coverageReportPaths="coverage-report/SonarQube.xml" \
             /d:sonar.qualitygate.wait=true \
             /d:sonar.qualitygate.timeout=300
-          
+
       - name: Build
         run: dotnet build
 
@@ -42,9 +42,9 @@ jobs:
           -reports:TestResults/**/coverage.cobertura.xml \
           -targetdir:coverage-report \
           -reporttypes:SonarQube
-          
+
       - name: Complete Static Code Analysis
-        run: | # INSERT RELEVANT VARIABLES BELOW
+        run: |
           dotnet sonarscanner end \
           /d:sonar.token="${{ secrets.CALCULATOR_TOKEN }}"
 
