@@ -19,7 +19,8 @@ public class CachedCalculatorTest
         Assert.That(result, Is.EqualTo(5));
     }
 
-    public static void Subtract()
+    [Test]
+    public void Subtract()
     {
         // Arrange
         var calc = new CachedCalculator();
@@ -103,8 +104,11 @@ public class CachedCalculatorTest
         var secondResult = calc.IsPrime(candidate);
 
         // Assert
-        Assert.That(firstResult, Is.True);
-        Assert.That(secondResult, Is.True);
-        Assert.That(calc.CacheCount, Is.EqualTo(1));
+        Assert.Multiple(() =>
+        {
+            Assert.That(firstResult, Is.True);
+            Assert.That(secondResult, Is.True);
+            Assert.That(calc.CacheCount, Is.EqualTo(1));
+        });
     }
 }
