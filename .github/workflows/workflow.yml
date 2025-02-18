@@ -46,7 +46,7 @@ jobs:
       - name: Complete Static Code Analysis
         run: | # INSERT RELEVANT VARIABLES BELOW
           dotnet sonarscanner end \
-          /d:sonar.token="${{ secret.CALCULATOR_TOKEN }}"
+          /d:sonar.token="${{ secrets.CALCULATOR_TOKEN }}"
 
       - name: Run Mutation Tests
         run: |
