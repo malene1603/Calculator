@@ -19,7 +19,7 @@ public class CachedCalculatorTest
         Assert.That(result, Is.EqualTo(5));
     }
     
-    public void Subtract()
+    public static void Subtract()
     {
         // Arrange
         var calc = new CachedCalculator();

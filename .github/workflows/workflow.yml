@@ -15,8 +15,22 @@ jobs:
 
       - name: Install required tools
         run: |
+          dotnet tool install -g dotnet-sonarscanner
           dotnet tool install --global dotnet-reportgenerator-globaltool
           dotnet tool install --global dotnet-stryker
+          
+      - name: Start Static Code Analysis
+        run: | # INSERT RELEVANT VARIABLES BELOW
+          dotnet sonarscanner begin \
+            /k:"${{vars.CALCULATOR_PROJECT_KEY}}" \ 
+            /d:sonar.host.url="${{vars.CALCULATOR_URL}}" \
+            /d:sonar.token="${{secrets.CALCULATOR_TOKEN}}" \
+            /d:sonar.coverageReportPaths="coverage-report/SonarQube.xml" \
+            /d:sonar.qualitygate.wait=true \
+            /d:sonar.qualitygate.timeout=300
+          
+      - name: Build
+        run: dotnet build
 
       - name: Run unit tests
         run: |
@@ -24,7 +38,15 @@ jobs:
 
       - name: Generate report
         run: |
-          reportgenerator -reports:TestResults/**/coverage.cobertura.xml -targetdir:coverage-report -reporttypes:Html
+          reportgenerator \
+          -reports:TestResults/**/coverage.cobertura.xml \
+          -targetdir:coverage-report \
+          -reporttypes:SonarQube
+          
+      - name: Complete Static Code Analysis
+        run: | # INSERT RELEVANT VARIABLES BELOW
+          dotnet sonarscanner end \
+          /d:sonar.token="${{secret.CALCULATOR_TOKEN}}"
 
       - name: Run Mutation Tests
         run: |
